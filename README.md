@@ -14,9 +14,9 @@ This is what `docker-recipe` is for:
     RUN apt-get install -qqy libcurl4-openssl-dev
         && docker-php-ext-install curl
 
-So cURL needs the openssl-dev to be compiled
-and our recipe brought that in.
-Now it won't fail. Nice!
+So cURL needs the `libcurl4-openssl-dev` to be compiled
+and our Docker recipe brought that in.
+**Now it won't fail.** Nice! 🎉
 
 ## Introduction
 
