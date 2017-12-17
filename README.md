@@ -16,7 +16,16 @@ This is what `docker-recipe` is for:
 
 Nice!
 
-## Building Dockerfiles
+## Introduction
+
+### What do we want? This is the big goal!
+
+1. Work on any OS!
+2. Be as silent as possible where it is okay (except for errors).
+3. Low number of intermediate container (using `&&` in every recipe).
+4. Clean up afterwards (like `apt purge -y some-package-dev`).
+
+### Building Dockerfiles
 
 Adding packages to a `Dockerfile` is easy as:
 
@@ -27,7 +36,7 @@ We just added GIT, SVN, php-curl, php-gd and php-intl to the `Dockerfile`
 with all dependencies.
 The build should not fail but if so then let us know in the bug tracker.
 
-## Parse Dockerfile
+### Parse Dockerfile
 
 You can also have a `Dockerfile.recipe` template:
 
@@ -43,8 +52,21 @@ You can also have a `Dockerfile.recipe` template:
 Running `docker-recipe Dockerfile.recipe` (or simply `docker-recipe`)
 will parse this file and inject the recipes.
 
-## What do we want?
+## Features
 
-- Be as silent as possible where it is okay (except for errors).
-- Low number of intermediate container (using `&&` in every recipe).
-- Clean up afterwards (like `apt purge -y some-package-dev`).
+The commands:
+
+- `docker-recipe` writes the `Dockerfile` using `Dockerfile.recipe` by default.
+- `docker-recipe some-other.drecipe` parses another file flushing the result on STDOUT.
+- `docker-recipe parse some-other.drecipe` parses a file (without recursion).
+- `docker-recipe find php/curl` shows the path to the recipe.
+
+Environment variables:
+
+- Use `DOCKER_RECIPE_OS="debian"` to switch concerns and maybe use other recipes.
+- Use `DOCKER_RECIPE_PATH="/some/other/recipes` to fetch recipes from another directory.
+- `DOCKER_RECIPE_BASE` points to the path of all commands and should not be overridden.
+
+Other nice stuff:
+
+- Each `.df` file is allowed to contain additional `# @docker-recipe` references (recusively parse).
