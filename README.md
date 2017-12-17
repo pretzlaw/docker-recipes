@@ -16,7 +16,8 @@ This is what `docker-recipe` is for:
 
 So cURL needs the `libcurl4-openssl-dev` to be compiled
 and our Docker recipe brought that in.
-**Now it won't fail.** Nice! 🎉
+
+Now it won't fail. Nice! 🎉
 
 ## Introduction
 
