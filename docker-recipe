@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -e
+
+DOCKER_RECIPE_BASE="$( cd "$(dirname "$0")" ; pwd -P )"
+DOCKER_RECIPE_PATH=${DOCKER_RECIPE_PATH-"$DOCKER_RECIPE_BASE/recipes"}
+DOCKER_RECIPE_OS=${DOCKER_RECIPE_OS-"debian"}
+
+function docker_recipe() {
+    for templateName in "${@}"; do
+        # Resolve recipe file
+        templateFiles=$(${DOCKER_RECIPE_BASE}/docker-recipe-find ${templateName})
+
+        for templateSource in ${templateFiles}; do
+            if [[ -x ${templateSource} ]]; then
+                source ${templateSource}
+                echo ""
+                continue;
+            fi
+
+            eval "echo \"$(cat ${templateSource} | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' )\""
+            echo ""
+        done
+    done
+}
+
+#function docker_parse_file() {
+#
+#}
+
+if [[ -z "$1" ]];then
+    echo "Usage: $0 <package-name>"
+    exit 1
+fi
+
+if [[ -x "$DOCKER_RECIPE_BASE/docker-recipe-$1" ]]; then
+    # Subcommand
+    cmd=$1
+    shift
+    exec "$DOCKER_RECIPE_BASE/docker-recipe-$cmd" ${*}
+    exit $?
+fi
+
+if [[ -f "$1" ]]; then
+    ./docker-recipe-parse $1
+    exit $?
+fi
+
+docker_recipe "${@}"
+
+# grep apt Dockerfile | grep '\-y' | cut -d'y' -f2- | cut -d'>' -f1 | xargs echo 'RUN apt-purge -y'

@@ -1,0 +1,3 @@
+# PHP gd
+RUN apt-get install -qq -y libpng-dev > /dev/null \
+    && docker-php-ext-install gd

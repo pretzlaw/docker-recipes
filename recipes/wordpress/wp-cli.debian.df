@@ -1,0 +1,4 @@
+# WordPress wp-cli
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -q -O wp.phar \
+    && mv wp.phar /usr/local/bin/wp \
+    && chmod +x /usr/local/bin/wp

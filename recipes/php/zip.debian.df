@@ -1,0 +1,3 @@
+# PHP Zip
+RUN apt-get install -qq -y zlib1g-dev > /dev/null
+RUN docker-php-ext-install zip

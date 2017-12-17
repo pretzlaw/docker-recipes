@@ -1,0 +1,3 @@
+# PHP Xsl
+RUN apt-get install -qqy libxslt-dev
+RUN docker-php-ext-install xsl

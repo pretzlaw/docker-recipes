@@ -1,0 +1,3 @@
+# PHP XmlReader
+RUN apt-get install -qq -y libxml2-dev > /dev/null
+RUN docker-php-ext-install xmlreader

@@ -1,0 +1,3 @@
+# PHP MCrypt
+RUN apt-get install -qqy libmcrypt-dev
+RUN docker-php-ext-install mcrypt

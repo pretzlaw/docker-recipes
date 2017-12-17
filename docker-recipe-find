@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -e
+
+DOCKER_RECIPE_BASE="$( cd "$(dirname "$0")" ; pwd -P )"
+DOCKER_RECIPE_PATH=${DOCKER_RECIPE_PATH-"$DOCKER_RECIPE_BASE/recipes"}
+DOCKER_RECIPE_OS=${DOCKER_RECIPE_OS-"debian"}
+
+# Resolving recipe file
+#
+# Usage:
+#
+#       docker_recipe_find foo
+#
+# Looks for:
+#
+# - foo.debian.sh
+# - foo.sh
+# - foo.debian.df
+# - foo.df
+# - foo/ (directory)
+#
+# If "debian" is the current  DOCKER_RECIPE_OS.
+# In case of an directory it will return all files that are in there on the first level.
+#
+function docker_recipe_find() {
+    # Security: disallow walking into another directory
+    templateBase=${DOCKER_RECIPE_PATH}/${1//\.\./}
+
+    # Resolve sh first then normal df files using os specific before general recipes.
+    for extension in ${DOCKER_RECIPE_OS}.sh sh ${DOCKER_RECIPE_OS}.df df; do
+        if [[ -f ${templateBase}.${extension} ]]; then
+            echo ${templateBase}.${extension};
+            return;
+        fi
+    done
+
+    # Including a whole directory is possible too.
+    if [[ -d $templateBase ]]; then
+        ls ${templateBase}/*.df ${templateBase}/*.sh 2>/dev/null
+        return
+    fi
+
+    echo "Could not resolve $1" >& 2
+    exit 1
+}
+
+if [[ ! -z "$1" ]]; then
+    docker_recipe_find $1
+    exit $?
+fi
+

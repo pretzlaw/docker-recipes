@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -e
+
+DOCKER_RECIPE_BASE="$( cd "$(dirname "$0")" ; pwd -P )"
+DOCKER_RECIPE_PATH=${DOCKER_RECIPE_PATH-"$DOCKER_RECIPE_BASE/recipes"}
+DOCKER_RECIPE_OS=${DOCKER_RECIPE_OS-"debian"}
+
+function docker_recipe_parse() {
+
+    if [[ ! -f $1 ]]; then
+        echo File not found: $1
+        exit 1
+    fi
+
+    while read line; do
+        if ! echo "$line" | grep -q '@docker-recipe' > /dev/null; then
+            echo "$line"
+            continue;
+        fi
+
+        packages=$(echo "this! $line" | grep -oP "@docker-recipe\s*\K.+")
+        $DOCKER_RECIPE_BASE/docker-recipe $packages
+    done <$1
+
+}
+
+if [[ ! -z "$1" ]]; then
+    docker_recipe_parse $1
+    exit $?
+fi

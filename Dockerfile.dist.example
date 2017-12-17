@@ -1,0 +1,19 @@
+FROM pretzlaw/php:7.2-apache
+MAINTAINER Mike Pretzlaw <mail@mike-pretzlaw.de>
+
+WORKDIR /var/www
+
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+# @docker-recipe base
+
+# Install VCS
+RUN apt-get install -qqy git subversion
+
+# @docker-recipe php/composer wordpress
+
+# cleanup
+RUN rm -rf /var/lib/apt/lists/*
+
+CMD ["apache2-foreground"]
