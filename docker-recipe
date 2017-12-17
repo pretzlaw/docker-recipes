@@ -18,7 +18,7 @@ function docker_recipe() {
                 continue;
             fi
 
-            eval "echo \"$(cat ${templateSource} | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' )\""
+            eval "echo \"$(${DOCKER_RECIPE_BASE}/docker-recipe-parse "${templateSource}" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' )\""
             echo ""
         done
     done

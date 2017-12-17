@@ -1,0 +1,20 @@
+# WordPress PHP requirements
+#
+
+# HINT: There is no PHP7 support yet for php/xmlreader
+# @docker-recipe php/curl
+# @docker-recipe php/gd
+# @docker-recipe php/xml
+# @docker-recipe php/zip
+
+RUN docker-php-ext-install iconv
+RUN docker-php-ext-install hash
+RUN docker-php-ext-install json
+RUN docker-php-ext-install mbstring
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install simplexml
+RUN docker-php-ext-install sockets
+RUN docker-php-ext-install tokenizer
+
+#
+#############
