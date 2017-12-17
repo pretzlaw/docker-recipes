@@ -29,6 +29,11 @@ function docker_recipe() {
 #}
 
 if [[ -z "$1" ]];then
+    if [[ -f "Dockerfile.recipe" ]]; then
+        exec $0 Dockerfile.recipe > Dockerfile
+        exit $?
+    fi
+
     echo "Usage: $0 <package-name>"
     exit 1
 fi
