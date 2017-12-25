@@ -47,7 +47,7 @@ if [[ -x "$DOCKER_RECIPE_BASE/docker-recipe-$1" ]]; then
 fi
 
 if [[ -f "$1" ]]; then
-    ./docker-recipe-parse $1
+    ${DOCKER_RECIPE_BASE}/docker-recipe-parse $1
     exit $?
 fi
 
