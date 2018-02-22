@@ -1,0 +1,4 @@
+# PHP GMP
+RUN apt-get install -y libgmp-dev && \
+    ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h && \
+    docker-php-ext-install gmp
