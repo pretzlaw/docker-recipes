@@ -18,15 +18,11 @@ function docker_recipe() {
                 continue;
             fi
 
-            eval "echo \"$(${DOCKER_RECIPE_BASE}/docker-recipe-parse "${templateSource}" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' )\""
+            "${DOCKER_RECIPE_BASE}/docker-recipe-parse" "${templateSource}"
             echo ""
         done
     done
 }
-
-#function docker_parse_file() {
-#
-#}
 
 if [[ -z "$1" ]];then
     if [[ -f "Dockerfile.recipe" ]]; then
